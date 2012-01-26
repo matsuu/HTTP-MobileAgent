@@ -1,5 +1,5 @@
 use strict;
-use Test::More tests => 41;
+use Test::More tests => 46;
 
 use HTTP::MobileAgent;
 
@@ -7,6 +7,10 @@ my @Tests = (
     [ { HTTP_X_JPHONE_DISPLAY => '120*117', HTTP_USER_AGENT => 'J-PHONE/2.0/J-DN02',
 	HTTP_X_JPHONE_COLOR => 'C256' },
       { width => 120, height => 117, color => 1, depth => 256. } ],
+    [ { HTTP_X_JPHONE_DISPLAY => '480*640', HTTP_X_S_DISPLAY_INFO => '468*540/29*16/TB',
+	HTTP_USER_AGENT => 'SoftBank/1.0/814SH/SHJ001/SNXXXXXXXXX Browser/NetFront/3.4 Profile/MIDP-2.0 Configuration/CLDC-1.1',
+	HTTP_X_JPHONE_COLOR => 'C262144' },
+      { width => 468, height => 540, color => 1, depth => 262144. } ],
     [ { HTTP_X_UP_DEVCAP_SCREENPIXELS => '90,70',
 	HTTP_USER_AGENT => 'KDDI-TS21 UP.Browser/6.0.2.276 (GUI) MMP/1.1',
 	HTTP_X_UP_DEVCAP_SCREENDEPTH => '16,RGB565',
