@@ -143,7 +143,12 @@ sub _parse_crawler {
 
 sub _make_display {
     my $self = shift;
-    my($width, $height) = split /\*/, $self->get_header('x-jphone-display');
+    my($width, $height, $width_bytes, $height_bytes);
+    if (my $display_info = $self->get_header('x-s-display-info')) {
+      ($width, $height, $width_bytes, $height_bytes) = split /[\*\/]/, $display_info;
+    } else {
+      ($width, $height) = split /\*/, $self->get_header('x-jphone-display');
+    }
 
     my($color, $depth);
     if (my $c_str = $self->get_header('x-jphone-color')) {
@@ -151,10 +156,12 @@ sub _make_display {
     }
 
     return HTTP::MobileAgent::Display->new(
-        width  => $width,
-        height => $height,
-        color  => $color eq 'C',
-        depth  => $depth,
+        width        => $width,
+        height       => $height,
+        width_bytes  => $width_bytes,
+        height_bytes => $height_bytes,
+        color        => $color eq 'C',
+        depth        => $depth,
     );
 }
 
